@@ -240,6 +240,7 @@ namespace XT.Net.Converters
     [JsonSerializable(typeof(XTProtectionLimitFilter[]))]
     [JsonSerializable(typeof(XTProtectionMarketFilter[]))]
     [JsonSerializable(typeof(XTProtectionOnlineFilter[]))]
+    [JsonSerializable(typeof(XTDailyOrderLimitFilter[]))]
     [JsonSerializable(typeof(XTSymbols[]))]
     [JsonSerializable(typeof(XTSymbol[]))]
     [JsonSerializable(typeof(XTTrackOrder[]))]
