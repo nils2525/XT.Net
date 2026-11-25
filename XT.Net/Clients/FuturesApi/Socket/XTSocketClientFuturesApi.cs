@@ -102,6 +102,20 @@ namespace XT.Net.Clients.FuturesApi
             => new XTFuturesAuthenticationProvider(credentials);
 
         /// <inheritdoc />
+        protected override WebSocketParameters GetWebSocketParameters(string address)
+        {
+            var parameters = base.GetWebSocketParameters(address);
+
+            // The user stream rejects handshakes that do not offer permessage-deflate with 426 Upgrade Required
+            // ("permessage-deflate is required"). The market stream still accepts uncompressed connections, so it
+            // keeps them and avoids decompressing every market data message.
+            if (address == BaseAddress.AppendPath("ws/user"))
+                parameters.UsePerMessageDeflate = true;
+
+            return parameters;
+        }
+
+        /// <inheritdoc />
         public async Task<WebSocketResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<XTFuturesTrade>> onMessage, CancellationToken ct = default)
             => await SubscribeToTradeUpdatesAsync([symbol], onMessage, ct).ConfigureAwait(false);
 
